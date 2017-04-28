@@ -6,11 +6,40 @@
 \linenumincrement*{1}
 \firstsublinenum*{1}
 \sublinenumincrement*{1}
+\makeatletter
+\newcommand{\linenumannotation}[1]{%
+	\write\linenum@out{\string\@annot[#1]}%
+}
+\newcommand{\@annot}[1]{
+		\csgdef{annot@\the\absline@num}{#1}
+   % \xright@appenditem{\the\absline@num}\to\actionlines@list%
+   %\xright@appenditem{-1011}\to\actions@list%
+}
+\renewcommand*{\ledlinenum}{%
+  \bgroup%
+  \ifluatex%
+    \textdir TLT%
+  \fi%
+  \numlabfont\linenumrep{\line@num}%
+  \ifsublines@
+    \ifnum\subline@num>0\relax
+      \unskip%
+      \Xsublinesep@side%
+      \sublinenumrep{\subline@num}%
+    \fi
+  \fi%
+  \csuse{annot@\the\absline@num}%
+  \egroup%
+}%
 
+
+
+\makeatother
 \begin{document}
+
 \beginnumbering
 \pstart
-Lorem ipsum dolor sit amet, \startsub\setline{23}\edtext{consectetur}{\Afootnote{rer}} adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+Lorem\linenumannotation{\textsuperscript{a}} ipsum dolor sitamet, adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
 \pend
 \endnumbering
 %\begin{pages}
