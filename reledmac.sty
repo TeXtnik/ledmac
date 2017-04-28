@@ -793,6 +793,7 @@
   \fi%
 }
 \newcommand*{\@nl@reg}{%
+  \global\let\current@annot\relax
   \ifx\l@dchset@num\relax \else
     \advance\absline@num \@ne
     \set@line@action
@@ -1172,6 +1173,7 @@
        \the\endpage@num|\the\endline@num|%
        \ifsublines@ \the\endsubline@num \else 0\fi}\to\line@list
      \@ref@reg@parse{#2}%
+     \xright@appenditem{\current@annot}\to\line@annot@list
   \global\advance\@edtext@level by -1%
 }
 \newcommand{\@ref@reg@parse}[1]{%
@@ -1396,6 +1398,7 @@
 \newcommand{\dummy@edtext@showlemma}[2]{\showlemma{#1}}%
 \newcommand*{\no@expands}{%
   \let\select@@lemmafont=0%
+  \let\linenumannotation\@gobble
   \let\startsub=\relax  \let\endsub=\relax
   \let\startlock=\relax \let\endlock=\relax
   \let\edlabel=\@gobble
@@ -1499,8 +1502,10 @@
       \gl@p\line@list\to\@tempb
       \xdef\l@d@nums{\@tempb|\edfont@info}%
       \global\let\@tempb=\undefined
+      \gl@p\line@annot@list\to\l@annot
     \fi
   \fi}
+\list@create{\line@annot@list}
 
 \newcommand*{\edfont@info}{\f@encoding/\f@family/\f@series/\f@shape}
 
@@ -3159,6 +3164,7 @@
     \csuse{Xsublinesep@\@currentseries}%
     \wrap@edcrossref{\@this@crossref@start}{\sublinenumrep{#3}}%
   \fi
+  \csuse{this@annot}%
   \egroup%
   \ifdimequal{\csuse{Xboxendlinenum@\@currentseries}}{0pt}%
     {\bgroup}%
@@ -4603,6 +4609,7 @@
                       \unexpanded{\def\@this@crossref@start}{\theedtext:start}%
                       \unexpanded{\def\@this@crossref@end}{\theedtext:end}%
                       \expandonce{\@beforeinsertofthisedtext}%Internal for now, no reason to make it public
+                      \unexpanded{\def\this@annot}{\expandonce{\l@annot}}%
                       \noexpand\csuse{v#1footnote}%
                          {#1}%
                          {{\l@d@nums}{\expandonce\@tag}{\expandonce\content}}%
