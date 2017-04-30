@@ -1174,7 +1174,7 @@
        \the\endpage@num|\the\endline@num|%
        \ifsublines@ \the\endsubline@num \else 0\fi}\to\line@list
      \@ref@reg@parse{#2}%
-     \xright@appenditem{\current@annot}\to\line@annot@list
+     \xright@appenditem{\current@annot}\to\line@annot@list@start
   \global\advance\@edtext@level by -1%
 }
 \newcommand{\@ref@reg@parse}[1]{%
@@ -1503,10 +1503,10 @@
       \gl@p\line@list\to\@tempb
       \xdef\l@d@nums{\@tempb|\edfont@info}%
       \global\let\@tempb=\undefined
-      \gl@p\line@annot@list\to\l@annot
+      \gl@p\line@annot@list@start\to\l@annot@start
     \fi
   \fi}
-\list@create{\line@annot@list}
+\list@create{\line@annot@list@start}
 
 \newcommand*{\edfont@info}{\f@encoding/\f@family/\f@series/\f@shape}
 
@@ -3165,7 +3165,7 @@
     \csuse{Xsublinesep@\@currentseries}%
     \wrap@edcrossref{\@this@crossref@start}{\sublinenumrep{#3}}%
   \fi
-  \csuse{this@annot}%
+  \this@annot@start%
   \egroup%
   \ifdimequal{\csuse{Xboxendlinenum@\@currentseries}}{0pt}%
     {\bgroup}%
@@ -4610,7 +4610,7 @@
                       \unexpanded{\def\@this@crossref@start}{\theedtext:start}%
                       \unexpanded{\def\@this@crossref@end}{\theedtext:end}%
                       \expandonce{\@beforeinsertofthisedtext}%Internal for now, no reason to make it public
-                      \unexpanded{\def\this@annot}{\expandonce{\l@annot}}%
+                      \unexpanded{\def\this@annot@start}{\expandonce{\l@annot@start}}%
                       \noexpand\csuse{v#1footnote}%
                          {#1}%
                          {{\l@d@nums}{\expandonce\@tag}{\expandonce\content}}%
