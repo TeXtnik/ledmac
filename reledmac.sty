@@ -1163,6 +1163,7 @@
     \let\@lemma=\relax%
     \let\@sw\@gobblethree%
     \let\@annot\@gobble
+    \xright@appenditem{\current@annot}\to\line@annot@list@start%
     #2
     \global\endpage@num=\page@num
     \global\endline@num=\line@num
@@ -1174,7 +1175,6 @@
        \the\endpage@num|\the\endline@num|%
        \ifsublines@ \the\endsubline@num \else 0\fi}\to\line@list
      \@ref@reg@parse{#2}%
-     \xright@appenditem{\current@annot}\to\line@annot@list@start
   \global\advance\@edtext@level by -1%
 }
 \newcommand{\@ref@reg@parse}[1]{%
