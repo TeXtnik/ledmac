@@ -793,7 +793,8 @@
   \fi%
 }
 \newcommand*{\@nl@reg}{%
-  \global\let\current@annot@start\relax
+  \global\let\current@annot@start\relax%
+  \global\let\current@annot@end\relax%
   \ifx\l@dchset@num\relax \else
     \advance\absline@num \@ne
     \set@line@action
@@ -1175,6 +1176,7 @@
        \the\endpage@num|\the\endline@num|%
        \ifsublines@ \the\endsubline@num \else 0\fi}\to\line@list
      \@ref@reg@parse{#2}%
+  \xright@appenditem{\current@annot@end}\to\line@annot@list@end%
   \global\advance\@edtext@level by -1%
 }
 \newcommand{\@ref@reg@parse}[1]{%
@@ -1503,10 +1505,12 @@
       \gl@p\line@list\to\@tempb
       \xdef\l@d@nums{\@tempb|\edfont@info}%
       \global\let\@tempb=\undefined
-      \gl@p\line@annot@list@start\to\l@annot@start
+      \gl@p\line@annot@list@start\to\l@annot@start%
+      \gl@p\line@annot@list@end\to\l@annot@end%
     \fi
   \fi}
-\list@create{\line@annot@list@start}
+\list@create{\line@annot@list@start}%
+\list@create{\line@annot@list@end}%
 
 \newcommand*{\edfont@info}{\f@encoding/\f@family/\f@series/\f@shape}
 
@@ -3200,6 +3204,9 @@
        \fi%
        \wrap@edcrossref{\@this@crossref@end}{\sublinenumrep{#6}}%
      \fi%
+    \ifcsequal{this@annot@end}{this@annot@start}{}{%
+      \csuse{this@annot@end}%csuse to avoid error messag in first run
+    }%
   \fi%
   \ifdimequal{\csuse{Xboxendlinenum@\@currentseries}}{0pt}%
     {}%
@@ -4612,6 +4619,9 @@
                       \expandonce{\@beforeinsertofthisedtext}%Internal for now, no reason to make it public
                       \ifdefined\l@annot@start%
                       	\unexpanded{\def\this@annot@start}{\expandonce{\l@annot@start}}%
+											\fi%
+                      \ifdefined\l@annot@end%
+                      	\unexpanded{\def\this@annot@end}{\expandonce{\l@annot@end}}%
 											\fi%
                       \noexpand\csuse{v#1footnote}%
                          {#1}%
