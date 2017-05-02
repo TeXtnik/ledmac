@@ -3165,7 +3165,7 @@
     \csuse{Xsublinesep@\@currentseries}%
     \wrap@edcrossref{\@this@crossref@start}{\sublinenumrep{#3}}%
   \fi
-  \this@annot@start%
+  \csuse{this@annot@start}%csuse to avoid error messag in first run
   \egroup%
   \ifdimequal{\csuse{Xboxendlinenum@\@currentseries}}{0pt}%
     {\bgroup}%
@@ -4610,7 +4610,9 @@
                       \unexpanded{\def\@this@crossref@start}{\theedtext:start}%
                       \unexpanded{\def\@this@crossref@end}{\theedtext:end}%
                       \expandonce{\@beforeinsertofthisedtext}%Internal for now, no reason to make it public
-                      \unexpanded{\def\this@annot@start}{\expandonce{\l@annot@start}}%
+                      \ifdefined\l@annot@start%
+                      	\unexpanded{\def\this@annot@start}{\expandonce{\l@annot@start}}%
+											\fi%
                       \noexpand\csuse{v#1footnote}%
                          {#1}%
                          {{\l@d@nums}{\expandonce\@tag}{\expandonce\content}}%
