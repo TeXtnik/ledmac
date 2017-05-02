@@ -793,7 +793,7 @@
   \fi%
 }
 \newcommand*{\@nl@reg}{%
-  \global\let\current@annot\relax
+  \global\let\current@annot@start\relax
   \ifx\l@dchset@num\relax \else
     \advance\absline@num \@ne
     \set@line@action
@@ -1163,7 +1163,7 @@
     \let\@lemma=\relax%
     \let\@sw\@gobblethree%
     \let\@annot\@gobble
-    \xright@appenditem{\current@annot}\to\line@annot@list@start%
+    \xright@appenditem{\current@annot@start}\to\line@annot@list@start%
     #2
     \global\endpage@num=\page@num
     \global\endline@num=\line@num
