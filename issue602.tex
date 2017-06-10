@@ -11,7 +11,7 @@
 	\write\linenum@out{\string\@annot[#1]}%
 }
 \newcommand{\@annot}[1]{
-		\csgappto{annot@\the\absline@num}{#1}
+		\csgappto{annot@\the\absline@num}{#1}%Used to add annotation in marginal number
 		\def\current@annot@start{#1}
 		\def\current@annot@end{#1}
 }
