@@ -6,34 +6,7 @@
 \linenumincrement*{1}
 \firstsublinenum*{1}
 \sublinenumincrement*{1}
-\makeatletter
-\newcommand{\linenumannotation}[1]{%
-	\write\linenum@out{\string\@annot[#1]}%
-}
-\newcommand{\@annot}[1]{
-		\csgappto{annot@\the\absline@num}{#1}%Used to add annotation in marginal number
-		\gdef\current@annot@start{#1}
-		\gdef\current@annot@end{#1}
-}
-\renewcommand*{\ledlinenum}{%
-  \bgroup%
-  \ifluatex%
-    \textdir TLT%
-  \fi%
-  \numlabfont\linenumrep{\line@num}%
-  \ifsublines@
-    \ifnum\subline@num>0\relax
-      \unskip%
-      \Xsublinesep@side%
-      \sublinenumrep{\subline@num}%
-    \fi
-  \fi%
-  \csuse{annot@\the\absline@num}%
-  \egroup%
-}%
-\def\l@annot{}
 
-\makeatother
 \begin{document}
 \renewcommand{\showlemma}[1]{\emph{#1}}
 \beginnumbering
