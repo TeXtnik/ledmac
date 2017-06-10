@@ -792,9 +792,12 @@
     \@nl@reg%
   \fi%
 }
+\newcommand{\reset@current@annot}{
+    \global\let\current@annot@start\relax%
+    \global\let\current@annot@end\relax%
+}
 \newcommand*{\@nl@reg}{%
-  \global\let\current@annot@start\relax%
-  \global\let\current@annot@end\relax%
+  \reset@current@annot%
   \ifx\l@dchset@num\relax \else
     \advance\absline@num \@ne
     \set@line@action
@@ -1147,9 +1150,12 @@
     \@ref@reg{#1}{#2}%
   \fi%
 }%
+\newcount\@ref@count
 \newcommand*{\@ref@reg}[2]{%
   \global\insert@count=#1\relax
-  \global\advance\@edtext@level by 1%
+  \global\advance\@ref@count by \@ne%
+  \global\advance\@edtext@level by \@ne%
+  \csnumdef{this@ref@count@\the\@edtext@level}{\@ref@count}%
   \loop\ifnum\insert@count>\z@
     \xright@appenditem{\the\absline@num}\to\insertlines@list
     \global\advance\insert@count \m@ne
@@ -1164,7 +1170,8 @@
     \let\@lemma=\relax%
     \let\@sw\@gobblethree%
     \let\@annot\@gobble
-    \xright@appenditem{\current@annot@start}\to\line@annot@list@start%
+    \let\reset@current@annot\relax%
+    \csxdef{annot@start@edtxt@\the\@ref@count}{\current@annot@start}
     #2
     \global\endpage@num=\page@num
     \global\endline@num=\line@num
@@ -1176,7 +1183,7 @@
        \the\endpage@num|\the\endline@num|%
        \ifsublines@ \the\endsubline@num \else 0\fi}\to\line@list
      \@ref@reg@parse{#2}%
-  \xright@appenditem{\current@annot@end}\to\line@annot@list@end%
+     \csxdef{annot@end@edtxt@\csuse{this@ref@count@\the\@edtext@level}}{\current@annot@end}%
   \global\advance\@edtext@level by -1%
 }
 \newcommand{\@ref@reg@parse}[1]{%
@@ -1505,12 +1512,11 @@
       \gl@p\line@list\to\@tempb
       \xdef\l@d@nums{\@tempb|\edfont@info}%
       \global\let\@tempb=\undefined
-      \gl@p\line@annot@list@start\to\l@annot@start%
-      \gl@p\line@annot@list@end\to\l@annot@end%
+      \global\letcs{\l@annot@start}{annot@start@\csuse{thisedtext@\the\@edtext@level}}%
+      \global\letcs{\l@annot@end}{annot@end@\csuse{thisedtext@\the\@edtext@level}}%
     \fi
   \fi}
-\list@create{\line@annot@list@start}%
-\list@create{\line@annot@list@end}%
+
 
 \newcommand*{\edfont@info}{\f@encoding/\f@family/\f@series/\f@shape}
 

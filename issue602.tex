@@ -12,8 +12,8 @@
 }
 \newcommand{\@annot}[1]{
 		\csgappto{annot@\the\absline@num}{#1}%Used to add annotation in marginal number
-		\def\current@annot@start{#1}
-		\def\current@annot@end{#1}
+		\gdef\current@annot@start{#1}
+		\gdef\current@annot@end{#1}
 }
 \renewcommand*{\ledlinenum}{%
   \bgroup%
@@ -61,9 +61,6 @@ Lorem\linenumannotation{a} \edtext{++A ipsum \edtext{dolor}{\Afootnote{une}} sit
 %\end{Rightside}
 %\end{pages}
 %\Page
-\makeatletter
-%\meaning\line@annot@list@start
 
-\meaning\line@annot@list@end
 
 \end{document}
